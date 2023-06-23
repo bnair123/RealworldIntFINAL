@@ -15,17 +15,17 @@ public class StockTracker
         _httpClient = new HttpClient();
     }
 
-    public async Task<decimal> GetStockPrice(string symbol)
+    public async Task<decimal> GetStockPrice(string symbol, string apiKey)
     {
-        string jsonResponse = await FetchStockPrice(symbol);
+        string jsonResponse = await FetchStockPrice(symbol, apiKey);
         StockPrice stockPrice = JsonSerializer.Deserialize<StockPrice>(jsonResponse);
         decimal price = decimal.Parse(stockPrice.Price);
         return price;
     }
 
-    private async Task<string> FetchStockPrice(string symbol)
+    private async Task<string> FetchStockPrice(string symbol, string a)
     {
-        string url = $"https://api.twelvedata.com/price?symbol={symbol}&apikey=YOUR_API_KEY";
+        string url = $"https://api.twelvedata.com/price?symbol={symbol}&apikey={a}";
         HttpResponseMessage response = await _httpClient.GetAsync(url);
 
         if (response.IsSuccessStatusCode)
