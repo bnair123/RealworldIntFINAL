@@ -26,15 +26,44 @@ public class StockDictionary
         }
     }
 
+    public void RemoveStock(string symbol)
+    {
+        if (Stocks.ContainsKey(symbol))
+        {
+            Stocks.Remove(symbol);
+        }
+    }
+
     public void SaveToXml(string filePath)
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(StockDictionary));
+        using (TextWriter writer = new StreamWriter(filePath))
+        {
+            StockDictionarySerializer serializer = new StockDictionarySerializer();
+            serializer.Serialize(writer, this);
+        }
     }
 
-    public void LoadFromXml(string filePath)
+    public static StockDictionary LoadFromXml(string filePath)
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(StockDictionary));
+        using (TextReader reader = new StreamReader(filePath))
+        {
+            return StockDictionarySerializer.Deserialize(reader);
+        }
     }
-
 }
+
+/*
+ * To initialize:
+ *
+ * string filePath = "stocks.xml";
+ *
+ * StockDictionary myStocks;
+ * savedStocks = StockDictionary.LoadFromXml(filePath);
+ * myStocks.AddOrUpdateStock("AAPL", 150.73m);
+ * myStocks.RemoveStock("GOOGL");
+ * myStocks.SaveToXml(filePath);
+ * StockDictionary updatedStocks = StockDictionary.LoadFromXml(filePath);
+ *
+ *
+ */
 
