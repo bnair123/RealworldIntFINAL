@@ -29,7 +29,17 @@ namespace RealworldIntFINAL
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddStockClicked(object sender, RoutedEventArgs e)//Add Stock Is Clicked 
+        {
+
+        }
+
+        private void RemoveStockClicked(object sender, RoutedEventArgs e)//Remove Stock Is Clicked
+        {
+
+        }
+
+        private void UserInputIsBadClicked(object sender, RoutedEventArgs e)//Someone Needs True Guidance In Life
         {
 
         }
