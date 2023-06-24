@@ -7,7 +7,7 @@ public class Program
     public static async Task Main()
     {
         string symbol = "AAPL"; //This is to show implementation, should actually be in controller
-        string apiKey = "2a36d9947f2b46e6b21760d7206c606a";
+        string apiKey = "APIKEY";
 
         StockTracker stockTracker = new StockTracker();
         decimal price = await stockTracker.GetStockPrice(symbol, apiKey);
