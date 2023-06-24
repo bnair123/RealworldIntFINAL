@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace RealworldIntFINAL;
 
@@ -23,5 +25,16 @@ public class StockDictionary
             Stocks.Add(symbol, price);
         }
     }
+
+    public void SaveToXml(string filePath)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(StockDictionary));
+    }
+
+    public void LoadFromXml(string filePath)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(StockDictionary));
+    }
+
 }
 
