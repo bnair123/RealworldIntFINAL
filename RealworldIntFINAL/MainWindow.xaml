@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealworldIntFINAL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Background = "#1b1b1b"
+        Title="Down With The 1%" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="134*" />
+            <ColumnDefinition Width="323*" />
+            <ColumnDefinition Width="343*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+
+
+        <Label Content="OUR APP NAME HERE" HorizontalAlignment="Left" FontSize="20" Grid.Column="0" VerticalAlignment="Top" Height="44" Width="211" Foreground="White" Grid.ColumnSpan="2" />
+        <Label Grid.Column="4" Content="LIST OF STOCKS HERE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="44" Width="217" Foreground="White" FontSize="20" />
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+            <Button Content="Add Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="AddStockClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
+            <Button Content="Remove Stock" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="RemoveStockClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
+            <Button Content="Help Menu" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="UserInputIsBadClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
+        </StackPanel>
 
     </Grid>
+
 </Window>
