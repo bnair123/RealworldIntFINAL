@@ -44,3 +44,31 @@ public class BrandfetchAPI
         return searchResult;
     }
 }
+/*
+ * Example Implementation:
+ * var brandfetchAPI = new BrandfetchAPI();
+        var brandInfo = await brandfetchAPI.GetBrandInfo("Microsoft");
+
+        if (brandInfo != null)
+        {
+            Console.WriteLine($"Brand Name: {brandInfo.name}");
+            Console.WriteLine($"Domain: {brandInfo.domain}");
+            Console.WriteLine($"Claimed: {brandInfo.claimed}");
+            Console.WriteLine($"Description: {brandInfo.description}");
+
+            Console.WriteLine("\nLinks:");
+            foreach (var link in brandInfo.links)
+            {
+                Console.WriteLine($"- {link.name}: {link.url}");
+            }
+
+            Console.WriteLine("\nLogos:");
+            foreach (var logo in brandInfo.logos)
+            {
+                Console.WriteLine($"- Theme: {logo.theme}, Type: {logo.type}");
+                foreach (var format in logo.formats)
+                {
+                    Console.WriteLine($"  - Format: {format.format}, Src: {format.src}");
+                }
+            }
+*/
