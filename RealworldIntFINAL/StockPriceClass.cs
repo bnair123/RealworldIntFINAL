@@ -1,56 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace RealworldIntFINAL;
 
 public class StockDictionary
 {
-    public Dictionary<string, decimal> Stocks { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public StockDictionary Stocks { get; set; }
 
-    public StockDictionary()
+    public StockDictionary(StockDictionary stocks)
     {
-        Stocks = new Dictionary<string, decimal>();
+        Stocks = stocks;
     }
 
-    public void AddOrUpdateStock(string symbol, decimal price)
+    public async Task RefreshPrices(string apiKey)
     {
-        if (Stocks.ContainsKey(symbol))
+        StockTracker stockTracker = new StockTracker();
+        foreach (var symbol in Stocks.Stocks.Keys.ToList())
         {
-            Stocks[symbol] = price;
-        }
-        else
-        {
-            Stocks.Add(symbol, price);
-        }
-    }
-
-    public void RemoveStock(string symbol)
-    {
-        if (Stocks.ContainsKey(symbol))
-        {
-            Stocks.Remove(symbol);
+            decimal price = await stockTracker.GetStockPrice(symbol, apiKey);
+            Stocks.AddOrUpdateStock(symbol, price);
         }
     }
 
-    public void SaveToXml(string filePath)
+    public bool AddOrUpdateStock(string symbol, decimal price, List<string> usStockSymbols)
     {
-        using (TextWriter writer = new StreamWriter(filePath))
+        if (!usStockSymbols.Contains(symbol))
         {
-            StockDictionarySerializer serializer = new StockDictionarySerializer();
-            serializer.Serialize(writer, this);
+            throw new Exception("Invalid stock symbol.");
         }
+
+        Stocks.AddOrUpdateStock(symbol, price);
+        return true;
     }
 
-    public static StockDictionary LoadFromXml(string filePath)
+    public bool AddOrUpdateStock(string symbol, List<string> usStockSymbols, string apiKey)
     {
-        using (TextReader reader = new StreamReader(filePath))
+        if (!usStockSymbols.Contains(symbol))
         {
-            return StockDictionarySerializer.Deserialize(reader);
+            throw new Exception("Invalid stock symbol.");
         }
+
+        StockTracker stockTracker = new StockTracker();
+        decimal price = stockTracker.GetStockPrice(symbol, apiKey).Result;
+        Stocks.AddOrUpdateStock(symbol, price);
+        return true;
+    }
+
+    public void DeleteStock(string symbol)
+    {
+        Stocks.RemoveStock(symbol);
     }
 }
+
 
 /*
  * To initialize:
