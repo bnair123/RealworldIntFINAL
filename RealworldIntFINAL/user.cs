@@ -45,3 +45,31 @@ public class UserVerification
         doc.Save($"{Username}_stocks.xml");
     }
 }
+
+/*
+ * For controller:
+ * private UserManager userManager;
+
+        public Controller()
+        {
+            userManager = new UserManager();
+        }
+
+        public Dictionary<string, int> LoginAndLoadStocks(string username, string password)
+        {
+            var user = userManager.Authenticate(username, password);
+            if (user == null)
+            {
+                throw new Exception("Invalid username or password.");
+            }
+
+            return user.LoadStocks();
+        }
+
+        public void RegisterAndSaveStocks(string username, string password, Dictionary<string, int> stocks)
+        {
+            var user = userManager.Register(username, password);
+            user.SaveStocks(stocks);
+        }
+
+ */
