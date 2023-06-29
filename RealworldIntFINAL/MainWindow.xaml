@@ -1,34 +1,54 @@
-﻿<Window x:Class="RealworldIntFINAL.MainWindow"
+﻿<Window x:Class="non.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RealworldIntFINAL"
+        xmlns:local="clr-namespace:non"
         mc:Ignorable="d"
-        Background = "#1b1b1b"
-        Title="Down With The 1%" Height="450" Width="800">
+        Background="#1b1b1b"
+        Title="Login Screen" Height="800" Width="1000">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="134*" />
-            <ColumnDefinition Width="323*" />
-            <ColumnDefinition Width="343*" />
-        </Grid.ColumnDefinitions>
-
+        <!-- Defining 5 rows to allow for "Pretty resizing" -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="100" />
-            <RowDefinition Height="200" />
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <!-- Defining 5 columns to allow dynamic resizing -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <Label Content="OUR APP NAME HERE" HorizontalAlignment="Left" FontSize="20" Grid.Column="0" VerticalAlignment="Top" Height="44" Width="211" Foreground="White" Grid.ColumnSpan="2" />
-        <Label Grid.Column="4" Content="LIST OF STOCKS HERE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="44" Width="217" Foreground="White" FontSize="20" />
-        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button Content="Add Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="AddStockClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
-            <Button Content="Remove Stock" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="RemoveStockClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
-            <Button Content="Help Menu" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="47" Width="106" Background="#ffa31a" Click="UserInputIsBadClicked" FontWeight="Bold" FontSize="15" Foreground="White" />
-        </StackPanel>
+        <PasswordBox x:Name="UsernameBox" Foreground="White" Background="#f90" Grid.Column="2" Grid.Row="3" Width="160" Height="25"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30" />
 
+        <PasswordBox x:Name="PasswordBox" Foreground="White" Background="#f90" Grid.Column="2" Grid.Row="3" Width="160" Height="25"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30,0,0" />
+
+        <Label Foreground="White" Grid.Column="1" FontSize="20" Content="Username" HorizontalAlignment="Right"
+               VerticalAlignment="Center" Height="33" Width="116" Grid.Row="3" Grid.RowSpan="1" Margin="0,0,10,30" />
+
+        <Label Foreground="White" Grid.Column="1" FontSize="20" Content="Password" HorizontalAlignment="Right"
+               VerticalAlignment="Center" Height="33" Width="116" Grid.Row="3" Grid.RowSpan="1" Margin="0,20,10,0" />
+
+        <Button Content="Login" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"
+                Width="100" Click="LoginButton_Click" Background="#f90" Foreground="White"/>
+        <Button Content="Register" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,0,0"
+                Width="100" Click="RegisterButton_Click" Background="#f90" Foreground="White"/>
+
+        <!-- ContentControl to display content -->
+        <ContentControl x:Name="MainContent" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Add the content you want to display here -->
+        </ContentControl>
     </Grid>
-
 </Window>

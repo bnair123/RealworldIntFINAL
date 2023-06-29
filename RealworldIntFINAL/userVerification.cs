@@ -34,24 +34,30 @@ public class UserManager
         return userNode;
     }
 
-    public User Authenticate(string username, string password)
+    public UserClass Authenticate(string username, string password)
     {
         foreach (XmlNode node in doc.DocumentElement.ChildNodes)
         {
             if (node.Attributes["username"].Value == username && node.Attributes["password"].Value == password)
             {
-                return new User(username, password);
+                return new UserClass(username, password);
             }
         }
 
         return null;
     }
 
-    public User Register(string username, string password)
+    public UserClass Register(string username, string password)
     {
         var userNode = CreateUserNode(username, password);
         doc.DocumentElement.AppendChild(userNode);
         doc.Save(usersFile);
-        return new User(username, password);
+        return new UserClass(username, password);
+    }
+
+    public void SaveStocks(UserClass user)
+    {
+        string stockFilePath = $"{user.Username}_stocks.xml";
+        user.SaveStocks(stockFilePath);
     }
 }
