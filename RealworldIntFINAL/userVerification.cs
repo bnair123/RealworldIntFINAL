@@ -55,9 +55,14 @@ public class UserManager
         return new UserClass(username, password);
     }
 
-    public void SaveStocks(UserClass user, stock)
+    public void SaveStocks(string username, StockPriceClass stocks)
     {
-        string stockFilePath = $"{user.Username}_stocks.xml";
-        user.SaveStocks(stockFilePath);
+        string stockFilePath = $"{username}_stocks.xml";
+        using (StreamWriter writer = new StreamWriter(stockFilePath))
+        {
+            StockDictionarySerializer serializer = new StockDictionarySerializer();
+            serializer.Serialize(writer, stocks);
+        }
     }
+
 }

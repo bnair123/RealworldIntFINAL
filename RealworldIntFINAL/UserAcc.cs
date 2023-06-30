@@ -34,14 +34,15 @@ public class UserClass
         return false;
     }
 
-    public void Logout(string currentUsername)
+    public void Logout(string currentUsername, StockPriceClass stocks)
     {
         if (Username == currentUsername)
         {
             UserManager userManager = new UserManager();
-            userManager.SaveStocks(this);
+            userManager.SaveStocks(currentUsername, stocks);
         }
     }
+
 
     public void SaveStocks(string username, Dictionary<string, decimal> stocks)
     {

@@ -24,12 +24,15 @@ public class StockDictionarySerializer
         XmlSerializer serializer = new XmlSerializer(typeof(List<StockDictionaryEntry>));
         List<StockDictionaryEntry> list = (List<StockDictionaryEntry>)serializer.Deserialize(reader);
 
-        StockPriceClass dictionary = new StockPriceClass();
+        Dictionary<string, decimal> stocks = new Dictionary<string, decimal>();
         foreach (StockDictionaryEntry entry in list)
         {
-            dictionary.Stocks[entry.Symbol] = entry.Price;
+            stocks[entry.Symbol] = entry.Price;
         }
+
+        StockPriceClass dictionary = new StockPriceClass(stocks);
 
         return dictionary;
     }
+
 }
