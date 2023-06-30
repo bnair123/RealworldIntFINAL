@@ -55,7 +55,7 @@ public class UserManager
         return new UserClass(username, password);
     }
 
-    public void SaveStocks(UserClass user)
+    public void SaveStocks(UserClass user, stock)
     {
         string stockFilePath = $"{user.Username}_stocks.xml";
         user.SaveStocks(stockFilePath);

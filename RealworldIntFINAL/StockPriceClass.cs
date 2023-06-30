@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace RealworldIntFINAL;
 
-public class StockDictionary
+public class StockPriceClass
 {
-    public string Username { get; set; }
-    public string Password { get; set; }
-    public StockDictionary Stocks { get; set; }
+    public Dictionary<string, decimal> Stocks { get; set; }
 
-    public StockDictionary(StockDictionary stocks)
+    public StockPriceClass(Dictionary<string, decimal> stocks)
     {
         Stocks = stocks;
     }
@@ -20,11 +19,24 @@ public class StockDictionary
     public async Task RefreshPrices(string apiKey)
     {
         StockTracker stockTracker = new StockTracker();
-        foreach (var symbol in Stocks.Stocks.Keys.ToList())
+        foreach (var symbol in Stocks.Keys.ToList())
         {
             decimal price = await stockTracker.GetStockPrice(symbol, apiKey);
-            Stocks.AddOrUpdateStock(symbol, price);
+            AddOrUpdateStock(symbol, price);
         }
+    }
+
+    public bool AddOrUpdateStock(string symbol, decimal price)
+    {
+        if (Stocks.ContainsKey(symbol))
+        {
+            Stocks[symbol] = price;
+        }
+        else
+        {
+            Stocks.Add(symbol, price);
+        }
+        return true;
     }
 
     public bool AddOrUpdateStock(string symbol, decimal price, List<string> usStockSymbols)
@@ -34,7 +46,14 @@ public class StockDictionary
             throw new Exception("Invalid stock symbol.");
         }
 
-        Stocks.AddOrUpdateStock(symbol, price);
+        if (Stocks.ContainsKey(symbol))
+        {
+            Stocks[symbol] = price;
+        }
+        else
+        {
+            Stocks.Add(symbol, price);
+        }
         return true;
     }
 
@@ -47,15 +66,35 @@ public class StockDictionary
 
         StockTracker stockTracker = new StockTracker();
         decimal price = stockTracker.GetStockPrice(symbol, apiKey).Result;
-        Stocks.AddOrUpdateStock(symbol, price);
+        AddOrUpdateStock(symbol, price, usStockSymbols);
         return true;
     }
 
     public void DeleteStock(string symbol)
     {
-        Stocks.RemoveStock(symbol);
+        Stocks.Remove(symbol);
+    }
+
+    public void SaveToXml(string filePath)
+    {
+        using (TextWriter writer = new StreamWriter(filePath))
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Dictionary<string, decimal>));
+            serializer.Serialize(writer, Stocks);
+        }
+    }
+
+    public static StockPriceClass LoadFromXml(string filePath)
+    {
+        using (TextReader reader = new StreamReader(filePath))
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(Dictionary<string, decimal>));
+            Dictionary<string, decimal> stocks = (Dictionary<string, decimal>)deserializer.Deserialize(reader);
+            return new StockPriceClass(stocks);
+        }
     }
 }
+
 
 
 /*

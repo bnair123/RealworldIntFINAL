@@ -1,6 +1,7 @@
 ﻿using non;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RealworldIntFINAL;
 
@@ -13,27 +14,33 @@ public class Controller
     //
 
     private UserClass userManager;
-    StockSymbolProvider symbolProvider = new StockSymbolProvider();
-    string apikey = "2a36d9947f2b46e6b21760d7206c606a"
-
-    List<string> usStockSymbols = await symbolProvider.GetUSStockSymbols(apiKey);
-
+    private StockSymbolProvider symbolProvider;
+    private StockPriceClass stockPriceClass;
+    private string apiKey = "2a36d9947f2b46e6b21760d7206c606a";
+    private List<string> usStockSymbols;
 
     public Controller()
     {
-        userManager = new UserManager();
-
+        userManager = new UserClass("username", "password");
+        symbolProvider = new StockSymbolProvider();
+        usStockSymbols = symbolProvider.GetUSStockSymbols(apiKey).Result;
     }
 
     //Users
     public bool AuthenticateUser(string username, string password)
     {
-        return userManager.Login(username, password);
+        bool isAuthenticated = userManager.Login(username, password);
+        if (isAuthenticated)
+        {
+            Dictionary<string, decimal> userStocks = userManager.LoadStocks(username);
+            stockPriceClass = new StockPriceClass(userStocks);
+        }
+        return isAuthenticated;
     }
 
-    public bool RegisterUser(string username, string password)
+    public void RegisterUser(string username, string password)
     {
-        return userManager.Register(username, password);
+        userManager.Register(username, password);
     }
 
     public Dictionary<string, decimal> LoadUserStocks(string username)
@@ -41,26 +48,30 @@ public class Controller
         return userManager.LoadStocks(username);
     }
 
-    public void SaveUserStocks(string username, Dictionary<string, double> stocks)
+    public void SaveUserStocks(string username, Dictionary<string, decimal> stocks)
     {
         userManager.SaveStocks(username, stocks);
     }
 
     // Stocks
-    public List<Stock> GetAllStocks()
+    public async Task RefreshPrices()
     {
+        await stockPriceClass.RefreshPrices(apiKey);
     }
 
-    public Stock GetStock(string stockName)
+    public bool AddOrUpdateStock(string symbol, decimal price)
     {
+        return stockPriceClass.AddOrUpdateStock(symbol, price, usStockSymbols);
     }
 
-    public void AddStock(Stock stock)
+    public bool AddOrUpdateStock(string symbol)
     {
+        return stockPriceClass.AddOrUpdateStock(symbol, usStockSymbols, apiKey);
     }
 
-    public void RemoveStock(string stockName)
+    public void DeleteStock(string symbol)
     {
+        stockPriceClass.DeleteStock(symbol);
     }
 
 }

@@ -9,14 +9,14 @@ public class UserClass
     public string Username { get; set; }
     public string Password { get; set; }
     public string StockFilePath { get; set; }
-    private StockDictionary stockDictionary;
+    private StockPriceClass stockDictionary;
 
     public UserClass(string username, string password)
     {
         Username = username;
         Password = password;
         StockFilePath = $"{username}_stocks.xml";
-        stockDictionary = LoadStocks();
+        stockDictionary = LoadStocks(username);
     }
 
     public bool Login(string username, string enteredPassword)
@@ -46,20 +46,30 @@ public class UserClass
     public void SaveStocks(string username, Dictionary<string, decimal> stocks)
     {
         string StockFilePath = $"./{username}_stocks.xml";
-        StockDictionary stockDictionary = new StockDictionary(stocks);
+        StockPriceClass stockDictionary = new StockPriceClass(stocks);
         stockDictionary.SaveToXml(StockFilePath);
     }
 
-    public Dictionary<string, decimal> LoadStocks(string username)
+    public StockPriceClass LoadStocks(string username)
     {
         string StockFilePath = $"./{username}_stocks.xml";
         if (!File.Exists(StockFilePath))
         {
-            return new Dictionary<string, Stock>();
+            return new StockPriceClass(new Dictionary<string, decimal>());
         }
-        return StockDictionary.LoadFromXml(StockFilePath).Stocks;
+        return StockPriceClass.LoadFromXml(StockFilePath);
+    }
+
+    public void Register(string username, string password)
+    {
+        Username = username;
+        Password = password;
+        StockFilePath = $"{username}_stocks.xml";
+        stockDictionary = new StockPriceClass(new Dictionary<string, decimal>());
+        stockDictionary.SaveToXml(StockFilePath);
     }
 }
+
 
 
 
