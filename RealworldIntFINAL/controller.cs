@@ -32,11 +32,11 @@ public class Controller
         bool isAuthenticated = userManager.Login(username, password);
         if (isAuthenticated)
         {
-            Dictionary<string, decimal> userStocks = userManager.LoadStocks(username);
-            stockPriceClass = new StockPriceClass(userStocks);
+            stockPriceClass = userManager.LoadStocks(username);
         }
         return isAuthenticated;
     }
+
 
     public void RegisterUser(string username, string password)
     {
@@ -45,8 +45,10 @@ public class Controller
 
     public Dictionary<string, decimal> LoadUserStocks(string username)
     {
-        return userManager.LoadStocks(username);
+        StockPriceClass stockPriceClass = userManager.LoadStocks(username);
+        return stockPriceClass.Stocks;
     }
+
 
     public void SaveUserStocks(string username, Dictionary<string, decimal> stocks)
     {
